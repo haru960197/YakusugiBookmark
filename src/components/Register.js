@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function Register({ registerWebSite, hashTags, processHashTag }) {
     const [webSite, setWebSite] = useState({url: '', title: '', hashTagNames: []})
 
-    function handleReset(e) {
+    function resetForm(e) {
         setWebSite({url: '', title: '', hashTagNames: []});
     }
     
@@ -13,6 +13,7 @@ export default function Register({ registerWebSite, hashTags, processHashTag }) 
             processHashTag(name);
         });
         registerWebSite(webSite);
+        resetForm();
     }
 
     return (
@@ -45,7 +46,7 @@ export default function Register({ registerWebSite, hashTags, processHashTag }) 
             <Button
                 sx={{ marginTop: 2, marginRight: 2 }}
                 variant="contained"
-                onClick={handleReset}
+                onClick={(e) => resetForm()}
             >Reset</Button>
             <Button
                 sx={{ marginTop: 2 }}
