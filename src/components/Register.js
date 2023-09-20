@@ -1,46 +1,35 @@
 import { Autocomplete, TextField, Stack, Button, Chip } from "@mui/material";
 import { useState } from "react";
 
-export default function Register() {
+export default function Register({ registerWebSite, hashTags, processHashTag }) {
     const [webSite, setWebSite] = useState({url: '', title: '', hashTagNames: []})
-    const [hashTags, setHashTags] = useState([{name: "hoge", count: 1}, {name: "fuga", count: 3}/*{ name: '', count: 0 }*/]);
 
-    function processHashTag(name) {
-        if (hashTags.find((hashTag) => hashTag.name === name)) {
-            // name is already registered.
-            setHashTags(hashTags.map((hashTag) => 
-                hashTag.name === name ? 
-                    { name: name, count: hashTag.count + 1} :
-                    hashTag
-            ))
-        } else {
-            // register new name hashtag.
-            setHashTags([
-                { name: name, count: 1 },
-                ...hashTags
-            ]);
-        }
+    function handleReset(e) {
+        setWebSite({url: '', title: '', hashTagNames: []});
     }
-
-    function handleClick(e) {
-        console.log(webSite);
+    
+    function handleRegister(e) {
         webSite.hashTagNames.forEach(name => {
             processHashTag(name);
         });
+        registerWebSite(webSite);
     }
 
     return (
         <>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <TextField
+                    value={webSite.url}
                     label="URL"
                     onChange={(e) => setWebSite({...webSite, url: e.target.value})}
                 />
                 <TextField
+                    value={webSite.title}
                     label="Title"
                     onChange={(e) => setWebSite({...webSite, title: e.target.value})}
                 />
                 <Autocomplete
+                    value={webSite.hashTagNames}
                     onChange={(e, newValueArray) => setWebSite({...webSite, hashTagNames: newValueArray})}
                     multiple
                     freeSolo
@@ -54,9 +43,14 @@ export default function Register() {
                 />
             </Stack>
             <Button
-                sx={{ marginTop: 2 }}
+                sx={{ marginTop: 2, marginRight: 2 }}
                 variant="contained"
-                onClick={handleClick}
+                onClick={handleReset}
+            >Reset</Button>
+            <Button
+                sx={{ marginTop: 2 }}
+                variant="contained"                
+                onClick={handleRegister}
                 disabled={!webSite.url}
             >Register</Button>
         </>
