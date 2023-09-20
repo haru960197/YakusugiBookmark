@@ -1,5 +1,6 @@
 import Register from './Register';
 import WebSiteList from './WebSiteList';
+import HashTagList from './HashTagList';
 import { useState } from 'react';
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
         registerWebSite={addWebSite}
         hashTags={hashTags}
       />
+      <HashTagList hashTags={hashTags} />
       <WebSiteList webSites={webSites} deleteWebSite={deleteWebSite}/>
     </div>
   );
