@@ -50,7 +50,6 @@ export default function Register({ registerWebSite, hashTags }) {
         setIsLoading(false);
 
         registerWebSite(webSite);
-        console.log(webSite); // debug
         resetForm();
     }
 
