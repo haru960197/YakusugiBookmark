@@ -8,7 +8,7 @@ function WebSiteListItem({ webSite, deleteWebSite }) {
                 <Typography key={`${webSite.name}-hashtags-${i}`} variant="subtitle2">{name}</Typography>
             )}
             <Typography vairant="subtitle1">{webSite.registerDate}</Typography>
-            <Link variant="h6" href={webSite.url}>{webSite.siteTitle}</Link>
+            <Link variant="h6" href={webSite.url} target="_blank">{webSite.siteTitle}</Link>
             <DeleteOutlineOutlinedIcon onClick={(e) => deleteWebSite(webSite)}/>
         </ListItem>
     );
