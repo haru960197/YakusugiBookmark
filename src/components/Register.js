@@ -24,6 +24,15 @@ export default function Register({ registerWebSite, hashTags }) {
             accessCount: 0
         };
 
+        // '#~~~' -> '~~~'
+        webSite.hashTagNames = webSite.hashTagNames.map((hashTagName) => {
+            if (hashTagName.startsWith('#')) {
+                return hashTagName.slice(1, hashTagName.length);
+            } else {
+                return hashTagName;
+            }
+        })
+
         // Add register-date
         const date = new Date();
         webSite.registerDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
