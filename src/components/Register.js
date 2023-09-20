@@ -1,18 +1,52 @@
 import { Autocomplete, TextField, Stack, Button, Chip } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 
 export default function Register({ registerWebSite, hashTags, processHashTag }) {
-    const [webSite, setWebSite] = useState({url: '', title: '', hashTagNames: []})
+    const [urlInput, setUrlInput] = useState('');
+    const [titleInput, setTitleInput] = useState('');
+    const [hashTagsInput, setHashTagsInput] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     function resetForm(e) {
-        setWebSite({url: '', title: '', hashTagNames: []});
+        setUrlInput('');
+        setTitleInput('');
+        setHashTagsInput([]);
     }
     
-    function handleRegister(e) {
-        webSite.hashTagNames.forEach(name => {
+    async function handleRegister(e) {
+        const webSite = {
+            url: urlInput,
+            title: titleInput,
+            hashTagNames: hashTagsInput,
+            siteTitle: '',
+            registerDate: '',
+            accessCount: 0
+        };
+
+        // Process all the hashTags
+        hashTagsInput.forEach(name => {
             processHashTag(name);
         });
+
+        // Add register-date
+        const date = new Date();
+        webSite.registerDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+
+        // Fetch the title of the web-site
+        setIsLoading(true);
+        try {
+            const url = `https://opengraph.io/api/1.1/site/${encodeURIComponent(urlInput)}?app_id=45a56422-e9e6-475a-9605-794e9bde139a`;
+            const response = await fetch(url);
+            const data = await response.json();
+            webSite.siteTitle = data.hybridGraph.title;
+        } catch(e) {
+            console.error(e);
+        }
+        setIsLoading(false);
+
         registerWebSite(webSite);
+        console.log(webSite); // debug
         resetForm();
     }
 
@@ -20,18 +54,18 @@ export default function Register({ registerWebSite, hashTags, processHashTag }) 
         <>
             <Stack spacing={2} sx={{ width: 300 }}>
                 <TextField
-                    value={webSite.url}
+                    value={urlInput}
                     label="URL"
-                    onChange={(e) => setWebSite({...webSite, url: e.target.value})}
+                    onChange={(e) => setUrlInput(e.target.value)}
                 />
                 <TextField
-                    value={webSite.title}
+                    value={titleInput}
                     label="Title"
-                    onChange={(e) => setWebSite({...webSite, title: e.target.value})}
+                    onChange={(e) => setTitleInput(e.target.value)}
                 />
                 <Autocomplete
-                    value={webSite.hashTagNames}
-                    onChange={(e, newValueArray) => setWebSite({...webSite, hashTagNames: newValueArray})}
+                    value={hashTagsInput}
+                    onChange={(e, newValueInput) => setHashTagsInput(newValueInput)}
                     multiple
                     freeSolo
                     options={hashTags.map((option) => option.name)}
@@ -48,12 +82,13 @@ export default function Register({ registerWebSite, hashTags, processHashTag }) 
                 variant="contained"
                 onClick={(e) => resetForm()}
             >Reset</Button>
-            <Button
+            <LoadingButton
                 sx={{ marginTop: 2 }}
+                loading={isLoading}
                 variant="contained"                
                 onClick={handleRegister}
-                disabled={!webSite.url}
-            >Register</Button>
+                disabled={!urlInput}
+            >Register</LoadingButton>
         </>
     );
 };

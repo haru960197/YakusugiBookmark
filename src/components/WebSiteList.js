@@ -7,7 +7,7 @@ function WebSiteListItem({ webSite, deleteWebSite }) {
             {webSite.hashTagNames.map((name, i) => 
                 <Typography key={`${webSite.name}-hashtags-${i}`} variant="subtitle2">{name}</Typography>
             )}
-            <Link variant="h6" href="#">サイトタイトル</Link>
+            <Link variant="h6" href={webSite.url}>{webSite.siteTitle}</Link>
             <DeleteOutlineOutlinedIcon onClick={(e) => deleteWebSite(webSite)}/>
         </ListItem>
     );
