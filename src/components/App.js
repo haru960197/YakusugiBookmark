@@ -16,7 +16,9 @@ function App() {
     let newHashTags;
 
     const date = new Date();
-    const lastUsedDate = `${date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate()}`;
+    const lastUsedDate =
+      `${date.getFullYear() * 1000000 + date.getMonth() * 10000
+          + date.getDate() * 100 + date.getHours()}`;
 
     if (hashTags.find((hashTag) => hashTag.name === name)) {
       // name is already registered.
@@ -73,7 +75,7 @@ function App() {
         registerWebSite={addWebSite}
         hashTags={hashTags}
       />
-      <HashTagList hashTags={hashTags} />
+      <HashTagList hashTags={hashTags} setHashTags={setHashTags}/>
       <WebSiteList webSites={webSites} deleteWebSite={deleteWebSite}/>
     </div>
   );

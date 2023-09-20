@@ -1,17 +1,26 @@
-import { List, ListItem, Typography, Box } from "@mui/material";
+import {
+    List,
+    ListItem,
+    Typography,
+    Box
+} from "@mui/material";
+import HashTagsSorter from "./HashTagsSorter";
 
-export default function HashTagList({ hashTags }) {
+export default function HashTagList({ hashTags, setHashTags }) {
     return (
-        <Box sx={{ border: 2, borderColor: "black" }}>
-            <List>
-                {hashTags.map((hashTag) => (
-                    <ListItem key={hashTag.name}>
-                        <Typography variant="subtitle2">
-                            {"#" + hashTag.name}
-                        </Typography>
-                    </ListItem>
-                ))}
-            </List>
-        </Box>
+        <>
+            <HashTagsSorter hashTags={hashTags} setHashTags={setHashTags} />
+            <Box sx={{ border: 2, borderColor: "black" }}>
+                <List>
+                    {hashTags.map((hashTag) => (
+                        <ListItem key={hashTag.name}>
+                            <Typography variant="subtitle2">
+                                {"#" + hashTag.name + ' ' + hashTag.lastUsedDate + ' ' + hashTag.count}
+                            </Typography>
+                        </ListItem>
+                    ))}
+                </List>
+            </Box>
+        </>
     );
 }
