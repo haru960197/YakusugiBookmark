@@ -10,7 +10,7 @@ function App() {
     [{name: "hoge", count: 1}, {name: "fuga", count: 3}/*{ name: '', count: 0 }*/]
   );
 
-  function processHashTag(name) {
+  function increaseHashTag(name) {
     if (hashTags.find((hashTag) => hashTag.name === name)) {
         // name is already registered.
         setHashTags(hashTags.map((hashTag) => 
@@ -27,13 +27,31 @@ function App() {
     }
   }
 
+  function decreaseHashTag(name) {
+    let newHashTags = hashTags.map((hashTag) => {
+      if (hashTag.name === name) {
+        return ({ name: hashTag.name, count: hashTag.count - 1 });
+      } else {
+        return hashTag;
+      }
+    });
+    newHashTags = newHashTags.filter((hashTag) => hashTag.count > 0);
+    setHashTags(newHashTags);
+  }
+
   function addWebSite(webSite) {
+    // Process all the hashTags
+    webSite.hashTagNames.forEach((hashTag) => increaseHashTag(hashTag));
+
     const newWebSites = [webSite, ...webSites];
     setWebSites(newWebSites);
     localStorage.setItem('webSites', JSON.stringify(newWebSites));
   }
 
   function deleteWebSite(webSite) {
+    // Process all the hashTags
+    webSite.hashTagNames.forEach((hashTag) => decreaseHashTag(hashTag));
+
     const newWebSites = webSites.filter((web) => web !== webSite);
     setWebSites(newWebSites);
     localStorage.setItem('webSites', JSON.stringify(newWebSites));
@@ -44,7 +62,6 @@ function App() {
       <Register
         registerWebSite={addWebSite}
         hashTags={hashTags}
-        processHashTag={processHashTag}
       />
       <WebSiteList webSites={webSites} deleteWebSite={deleteWebSite}/>
     </div>

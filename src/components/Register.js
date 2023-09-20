@@ -2,7 +2,7 @@ import { Autocomplete, TextField, Stack, Button, Chip } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 
-export default function Register({ registerWebSite, hashTags, processHashTag }) {
+export default function Register({ registerWebSite, hashTags }) {
     const [urlInput, setUrlInput] = useState('');
     const [titleInput, setTitleInput] = useState('');
     const [hashTagsInput, setHashTagsInput] = useState([]);
@@ -23,11 +23,6 @@ export default function Register({ registerWebSite, hashTags, processHashTag }) 
             registerDate: '',
             accessCount: 0
         };
-
-        // Process all the hashTags
-        hashTagsInput.forEach(name => {
-            processHashTag(name);
-        });
 
         // Add register-date
         const date = new Date();
