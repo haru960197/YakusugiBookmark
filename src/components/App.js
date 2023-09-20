@@ -1,6 +1,6 @@
 import Register from './Register';
 import WebSiteList from './WebSiteList';
-import HashTagList from './hashTag/HashTagList';
+import HashTagList from './HashTagList';
 import { useState } from 'react';
 
 function App() {
@@ -9,22 +9,26 @@ function App() {
   );
   const [hashTags, setHashTags] = useState(
     localStorage.getItem('hashTags') ? JSON.parse(localStorage.getItem('hashTags')) : []
-    /* [...{ name: '', count: 0 }] */
+    /* [...{ name: '', count: 0, lastUsedDate: '' }] */
   );
 
   function increaseHashTag(name) {
     let newHashTags;
+
+    const date = new Date();
+    const lastUsedDate = `${date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate()}`;
+
     if (hashTags.find((hashTag) => hashTag.name === name)) {
       // name is already registered.
       newHashTags = hashTags.map((hashTag) => 
         hashTag.name === name ?
-          { name: name, count: hashTag.count + 1} :
+          { name: name, count: hashTag.count + 1, lastUsedDate: lastUsedDate} :
           hashTag
       );
     } else {
       // register new name hashtag.
       newHashTags = [
-        { name: name, count: 1 },
+        { name: name, count: 1, lastUsedDate: lastUsedDate },
         ...hashTags
       ]
     }
