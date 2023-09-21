@@ -16,7 +16,6 @@ import {
     Switch,
     Grid
 } from "@mui/material";
-import { textOverflow } from "@mui/system";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
 
@@ -41,20 +40,25 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
                         ))}
                     </Grid>
                     <Typography vairant="subtitle1">{webSite.registerDate.split('-').slice(0, 3).join('-')}</Typography>
-                    <Link
-                        variant="h6"
-                        href={webSite.url}
-                        target="_blank"
-                        onClick={(e) => increaseAccessCount(webSite)}
-                    >
-                        <Box
-                            whiteSpace='nowrap'
-                            textOverflow="ellipsis"
-                            overflow="hidden"
-                        >{'\u00A0' + webSite.siteTitle}</Box>
-                    </Link>
-
-
+                    <Grid item container direction="row" >
+                        <Grid item container alignItems="center" xs="auto">
+                            <img alt="Error" src={webSite.faviconURL} width="18pt" height="18pt"/>
+                        </Grid>
+                        <Grid item xs={10} sm={10.5} md={11}>
+                            <Link
+                                variant="h6"
+                                href={webSite.url}
+                                target="_blank"
+                                onClick={(e) => increaseAccessCount(webSite)}
+                            >
+                                <Box
+                                    whiteSpace='nowrap'
+                                    textOverflow="ellipsis"
+                                    overflow="hidden"
+                                >{'\u00A0' + webSite.siteTitle}</Box>
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 <Grid item container alignItems="center" justifyContent="center" xs={1} >
                     <DeleteOutlineOutlinedIcon onClick={(e) => deleteWebSite(webSite)} />
@@ -119,7 +123,7 @@ export default function WebSiteList(
 
     return (
         <Box
-            sx={{ border: 2, borderColor: "#424242", margin: 4, marginLeft: 0, padding: 2 }}
+            sx={{ border: 2, borderColor: "#424242", margin: 2, padding: 2 }}
         >
             <Box>
                 <Typography variant="subtitle1">タイトルで絞り込み</Typography>
