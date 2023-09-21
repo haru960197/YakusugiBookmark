@@ -2,6 +2,7 @@ import Register from './Register';
 import WebSiteList from './WebSiteList';
 import HashTagList from './HashTagList';
 import { useState } from 'react';
+import { Grid } from "@mui/material"
 
 function App() {
   /*
@@ -114,17 +115,27 @@ function App() {
 
   return (
     <div>
-      <Register
-        registerWebSite={addWebSite}
-        hashTags={hashTags}
-      />
-      <HashTagList hashTags={hashTags} setHashTags={setHashTags}/>
-      <WebSiteList
-        hashTagList={hashTags}
-        webSites={webSites}
-        increaseAccessCount={increaseAccessCount}
-        deleteWebSite={deleteWebSite}
-      />
+      <Grid container spacing={4}>
+        <Grid item container direction="column" xs={12} sm={4}>
+          <Grid item>
+            <Register
+              registerWebSite={addWebSite}
+              hashTags={hashTags}
+            />
+          </Grid>
+          <Grid item>
+            <HashTagList hashTags={hashTags} setHashTags={setHashTags}/>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <WebSiteList
+            hashTagList={hashTags}
+            webSites={webSites}
+            increaseAccessCount={increaseAccessCount}
+            deleteWebSite={deleteWebSite}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 }
