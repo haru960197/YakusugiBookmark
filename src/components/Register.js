@@ -51,6 +51,9 @@ export default function Register({ registerWebSite, hashTags }) {
             webSite.siteTitle = data.hybridGraph.title;
         } catch (e) {
             console.error(e);
+            webSite.imageURL = "https://raw.githubusercontent.com/haru960197/YakusugiBookmark/master/public/yakusugi_logo256.png";
+            webSite.faviconURL = "https://github.com/haru960197/YakusugiBookmark/blob/master/public/defaultFavicon.png?raw=true";
+            webSite.siteTitle = "デモ版のためデフォルトタイトルを表示しています";
         }
         setIsLoading(false);
 
