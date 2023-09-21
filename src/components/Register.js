@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Stack, Button, Chip } from "@mui/material";
+import { Autocomplete, TextField, Stack, Button, Chip, Card, CardContent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 
@@ -58,45 +58,52 @@ export default function Register({ registerWebSite, hashTags }) {
     }
 
     return (
-        <Stack spacing={2} sx={{ margin: 4 }}>
-            <TextField
-                value={urlInput}
-                label="URL"
-                size="small"
-                onChange={(e) => setUrlInput(e.target.value)}
-            />
-            <TextField
-                value={titleInput}
-                label="タイトル"
-                size="small"
-                onChange={(e) => setTitleInput(e.target.value)}
-            />
-            <Autocomplete
-                value={hashTagsInput}
-                size="small"
-                onChange={(e, newValueInput) => setHashTagsInput(newValueInput)}
-                multiple
-                freeSolo
-                options={hashTags.map((option) => option.name)}
-                renderTags={(value, getTagProps) =>
-                    value.map((option, index) => (
-                        <Chip label={option} {...getTagProps({ index })} />
-                    ))
-                }
-                renderInput={(params) => <TextField {...params} label="#タグ" />}
-            />
-            <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button
-                    variant="contained"
-                    onClick={(e) => resetForm()}
-                >リセット</Button>
-                <LoadingButton
-                    loading={isLoading}
-                    variant="contained"
-                    onClick={handleRegister}
-                    disabled={!urlInput}
-                >追加</LoadingButton>
-            </Stack>
-        </Stack>
+        <Card
+            variant="outlined"
+            sx={{ margin: 2, marginLeft: 4 }}
+        >
+            <CardContent>
+                <Stack spacing={2} >
+                    <TextField
+                        value={urlInput}
+                        label="URL"
+                        size="small"
+                        onChange={(e) => setUrlInput(e.target.value)}
+                    />
+                    <TextField
+                        value={titleInput}
+                        label="タイトル"
+                        size="small"
+                        onChange={(e) => setTitleInput(e.target.value)}
+                    />
+                    <Autocomplete
+                        value={hashTagsInput}
+                        size="small"
+                        onChange={(e, newValueInput) => setHashTagsInput(newValueInput)}
+                        multiple
+                        freeSolo
+                        options={hashTags.map((option) => option.name)}
+                        renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                                <Chip label={option} {...getTagProps({ index })} />
+                            ))
+                        }
+                        renderInput={(params) => <TextField {...params} label="#タグ" />}
+                    />
+                    <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                        <Button
+                            variant="contained"
+                            onClick={(e) => resetForm()}
+                        >リセット</Button>
+                        <LoadingButton
+                            loading={isLoading}
+                            variant="contained"
+                            onClick={handleRegister}
+                            disabled={!urlInput}
+                        >追加</LoadingButton>
+                    </Stack>
+                </Stack>
+            </CardContent>
+        </Card>
     );
 };

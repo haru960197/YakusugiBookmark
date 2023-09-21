@@ -15,7 +15,9 @@ import {
     Stack,
     Switch,
     Grid,
-    Card
+    Card,
+    CardContent,
+    Divider
 } from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
@@ -43,7 +45,7 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
                     <Typography vairant="subtitle1">{webSite.registerDate.split('-').slice(0, 3).join('-')}</Typography>
                     <Grid item container direction="row" >
                         <Grid item container alignItems="center" xs="auto">
-                            <img alt="Error" src={webSite.faviconURL} width="18pt" height="18pt"/>
+                            <img alt="Error" src={webSite.faviconURL} width="18pt" height="18pt" />
                         </Grid>
                         <Grid item xs={10} sm={10.5} md={11}>
                             <Link
@@ -125,57 +127,68 @@ export default function WebSiteList(
     return (
         <Card
             variant="outlined"
-            sx={{ margin: 2, padding: 2 }}
+            sx={{ margin: 2, marginLeft: 0 }}
         >
-            <Box>
-                <Typography variant="subtitle1">タイトルで絞り込み</Typography>
-                <TextField size="small" fullWidth label="タイトル" onChange={(e) => setTitle(e.target.value)} />
-            </Box>
-            <Box sx={{ marginTop: 1 }}>
-                <Typography variant="subtitle1">#タグで絞り込み</Typography>
-                <Autocomplete
-                    size="small"
-                    onChange={(e, newHashTags) => setHashTags(newHashTags)}
-                    multiple
-                    options={hashTagList.map((option) => option.name)}
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                            <Chip label={option} {...getTagProps({ index })} />
-                        ))
-                    }
-                    renderInput={(params) => <TextField {...params} label="#タグ" />}
-                />
-            </Box>
-            <Box sx={{ marginTop: 2, paddingLeft: 1.5 }}>
-                <FormControl>
-                    <FormLabel>並び順</FormLabel>
-                    <RadioGroup
-                        row
-                        value={sortOrder}
-                        onChange={(e) => setSortOrder(e.target.value)}
-                    >
-                        <FormControlLabel value="date" control={<Radio />} label="追加順" />
-                        <FormControlLabel value="browseTime" control={<Radio />} label="アクセス数の多い順" />
-                    </RadioGroup>
-                </FormControl>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography>昇順</Typography>
-                    <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
-                    <Typography>降順</Typography>
-                </Stack>
-            </Box>
-            <Box sx={{ border: 2, borderColor: "#757575" }}>
+            <CardContent>
+                <Box>
+                    <Typography variant="subtitle1">タイトルで絞り込み</Typography>
+                    <TextField size="small" fullWidth label="タイトル" onChange={(e) => setTitle(e.target.value)} />
+                </Box>
+                <Box sx={{ marginTop: 1 }}>
+                    <Typography variant="subtitle1">#タグで絞り込み</Typography>
+                    <Autocomplete
+                        size="small"
+                        onChange={(e, newHashTags) => setHashTags(newHashTags)}
+                        multiple
+                        options={hashTagList.map((option) => option.name)}
+                        renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                                <Chip label={option} {...getTagProps({ index })} />
+                            ))
+                        }
+                        renderInput={(params) => <TextField {...params} label="#タグ" />}
+                    />
+                </Box>
+                <Box sx={{ marginTop: 2, paddingLeft: 1.5 }}>
+                    <FormControl>
+                        <FormLabel>並び順</FormLabel>
+                        <RadioGroup
+                            row
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                        >
+                            <FormControlLabel value="date" control={<Radio />} label="追加順" />
+                            <FormControlLabel value="browseTime" control={<Radio />} label="アクセス数の多い順" />
+                        </RadioGroup>
+                    </FormControl>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography>昇順</Typography>
+                        <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
+                        <Typography>降順</Typography>
+                    </Stack>
+                </Box>
+            </CardContent>
+
+            <Divider />
+
+            <CardContent>
                 <List>
-                    {sortedAndFilterdList.map((webSite, i) =>
-                        <WebSiteListItem
-                            key={`webSiteList-${i}`}
-                            webSite={webSite}
-                            increaseAccessCount={increaseAccessCount}
-                            deleteWebSite={deleteWebSite}
-                        />
-                    )}
+                    {sortedAndFilterdList.map((webSite, i) => (
+                        <>
+                            <WebSiteListItem
+                                key={`webSiteList-${i}`}
+                                webSite={webSite}
+                                increaseAccessCount={increaseAccessCount}
+                                deleteWebSite={deleteWebSite}
+                            />
+                            {i !== sortedAndFilterdList.length - 1
+                                ? <Divider />
+                                : undefined
+                            }
+                        </>
+                    ))}
                 </List>
-            </Box>
+            </CardContent>
         </Card>
     );
 };
