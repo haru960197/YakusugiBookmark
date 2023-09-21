@@ -18,7 +18,7 @@ import {
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
 
-function WebSiteListItem({ webSite, deleteWebSite }) {
+function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
     return (
         <ListItem>
             <Typography variant="h4">{webSite.title}</Typography>
@@ -26,7 +26,12 @@ function WebSiteListItem({ webSite, deleteWebSite }) {
                 <Typography key={`${webSite.name}-hashtags-${i}`} variant="subtitle2">{name}</Typography>
             )}
             <Typography vairant="subtitle1">{webSite.registerDate}</Typography>
-            <Link variant="h6" href={webSite.url} target="_blank">{webSite.siteTitle}</Link>
+            <Link
+                variant="h6"
+                href={webSite.url}
+                target="_blank"
+                onClick={(e) => increaseAccessCount(webSite)}
+            >{webSite.siteTitle}</Link>
             <DeleteOutlineOutlinedIcon onClick={(e) => deleteWebSite(webSite)}/>
         </ListItem>
     );
@@ -52,8 +57,8 @@ function filterList(webSites, title, hashTags) {
     return filterdList;
 }
 
-function sortList(webSites, sortOrder, isDESC) {
-    const sortedList = [...webSites];
+function sortList(filterdList, sortOrder, isDESC) {
+    const sortedList = [...filterdList];
     if (sortOrder === 'date') {
         sortedList.sort((a, b) => {
             const dateOfB = parseInt(b.registerDate.split('-').join(''), 10);
@@ -67,8 +72,12 @@ function sortList(webSites, sortOrder, isDESC) {
     return sortedList;
 }
 
-export default function WebSiteList({ hashTagList, webSites, deleteWebSite }) {
+export default function WebSiteList(
+    { hashTagList, webSites, increaseAccessCount, deleteWebSite }) {
+    
     const [filterdList, setFilterdList] = useState([]);
+    const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
+
     const [title, setTitle] = useState('');
     const [hashTags, setHashTags] = useState([]);
     useEffect(
@@ -77,10 +86,9 @@ export default function WebSiteList({ hashTagList, webSites, deleteWebSite }) {
 
     const [sortOrder, setSortOrder] = useState('date');
     const [isDESC, setIsDESC] = useState(true);
-
     useEffect(
-        () => setFilterdList((l) => sortList(l, sortOrder, isDESC))
-    , [sortOrder, isDESC]);
+        () => setSortedAndFilterdList(sortList(filterdList, sortOrder, isDESC))
+    , [filterdList, sortOrder, isDESC]);
 
     return (
         <Box sx={{ border: 2, borderColor: "black", margin: 4 }}>
@@ -122,10 +130,11 @@ export default function WebSiteList({ hashTagList, webSites, deleteWebSite }) {
             </>
             <Box sx={{ border: 2, borderColor: "black" }}>
                 <List>
-                    {filterdList.map((webSite, i) => 
+                    {sortedAndFilterdList.map((webSite, i) => 
                         <WebSiteListItem
                             key={`webSiteList-${i}`}
                             webSite={webSite}
+                            increaseAccessCount={increaseAccessCount}
                             deleteWebSite={deleteWebSite}
                         />
                     )}

@@ -9,6 +9,7 @@ function App() {
     localStorage.getItem('webSites') ? JSON.parse(localStorage.getItem('webSites')) : []
   );
   */
+
   const [webSites, setWebSites] = useState(
     localStorage.getItem('webSite') && JSON.parse(localStorage.getItem('webSite')).length > 0
       ? JSON.parse(localStorage.getItem('webSite'))
@@ -18,7 +19,7 @@ function App() {
         hashTagNames: ["github", "javascript"],
         siteTitle: "Kuro960197's GitHub",
         registerDate: "2023-09-21-09",
-        accessCount: 0
+        accessCount: 1
       },
       {
         url: "https://mui.com/material-ui/react-autocomplete/",
@@ -26,7 +27,7 @@ function App() {
         hashTagNames: ["javascript", "react", "mui"],
         siteTitle: 'React Autocomplete component - Material UI',
         registerDate: '2023-09-20-15',
-        accessCount: 0
+        accessCount: 3
       },
       {
         url: "https://www.opengraph.io/pricing",
@@ -34,7 +35,7 @@ function App() {
         hashTagNames: ["javascript", "react", "api"],
         siteTitle: 'Simple Pricing | Simple API',
         registerDate: '2023-09-20-23',
-        accessCount: 0
+        accessCount: 2
       }]
   );
   const [hashTags, setHashTags] = useState(
@@ -99,6 +100,18 @@ function App() {
     localStorage.setItem('webSites', JSON.stringify(newWebSites));
   }
 
+  function increaseAccessCount(targetWebSite) {
+    const newWebSites = webSites.map((webSite) => {
+      if (webSite === targetWebSite) {
+        return ({...webSite, accessCount: webSite.accessCount + 1});
+      } else {
+        return webSite;
+      }
+    });
+    setWebSites(newWebSites);
+    localStorage.setItem('webSites', JSON.stringify(newWebSites));
+  }
+
   return (
     <div>
       <Register
@@ -106,7 +119,12 @@ function App() {
         hashTags={hashTags}
       />
       <HashTagList hashTags={hashTags} setHashTags={setHashTags}/>
-      <WebSiteList hashTagList={hashTags} webSites={webSites} deleteWebSite={deleteWebSite}/>
+      <WebSiteList
+        hashTagList={hashTags}
+        webSites={webSites}
+        increaseAccessCount={increaseAccessCount}
+        deleteWebSite={deleteWebSite}
+      />
     </div>
   );
 }
