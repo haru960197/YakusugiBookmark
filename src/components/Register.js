@@ -1,6 +1,7 @@
 import { Autocomplete, TextField, Stack, Button, Chip, Card, CardContent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
+import API_KEY from "./ApiKey";
 
 export default function Register({ registerWebSite, hashTags }) {
     const [urlInput, setUrlInput] = useState('');
@@ -42,7 +43,7 @@ export default function Register({ registerWebSite, hashTags }) {
         // Fetch the title of the web-site
         setIsLoading(true);
         try {
-            const url = `https://opengraph.io/api/1.1/site/${encodeURIComponent(urlInput)}?app_id=45a56422-e9e6-475a-9605-794e9bde139a`;
+            const url = `https://opengraph.io/api/1.1/site/${encodeURIComponent(urlInput)}?app_id=${API_KEY}`;
             const response = await fetch(url);
             const data = await response.json();
             webSite.imageURL = data.hybridGraph.image;
