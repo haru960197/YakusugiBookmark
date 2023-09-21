@@ -91,14 +91,17 @@ export default function WebSiteList(
     , [filterdList, sortOrder, isDESC]);
 
     return (
-        <Box sx={{ border: 2, borderColor: "black", margin: 4 }}>
-            <>
-                <Typography variant="subtitle2">Search by title</Typography>
-                <TextField label="Title" onChange={(e) => setTitle(e.target.value)}/>
-            </>
-            <>
-                <Typography variant="subtitle2">Filter by hashtags</Typography>
+        <Box
+            sx={{ border: 2, borderColor: "black", margin: 4, marginLeft: 0, padding: 2 }}
+        >
+            <Box>
+                <Typography variant="subtitle1">タイトルで絞り込み</Typography>
+                <TextField size="small" fullWidth label="タイトル" onChange={(e) => setTitle(e.target.value)}/>
+            </Box>
+            <Box sx={{ marginTop: 1 }}>
+                <Typography variant="subtitle1">#タグで絞り込み</Typography>
                 <Autocomplete
+                    size="small"
                     onChange={(e, newHashTags) => setHashTags(newHashTags)}
                     multiple
                     options={hashTagList.map((option) => option.name)}
@@ -107,27 +110,27 @@ export default function WebSiteList(
                             <Chip label={option} {...getTagProps({ index })} />
                         ))
                     }
-                    renderInput={(params) => <TextField {...params} label="ハッシュタグ" />}
+                    renderInput={(params) => <TextField {...params} label="#タグ" />}
                 />
-            </>
-            <>
+            </Box>
+            <Box sx={{ marginTop: 2, paddingLeft: 1.5 }}>
                 <FormControl>
-                    <FormLabel>Sort order</FormLabel>
+                    <FormLabel>並び順</FormLabel>
                         <RadioGroup
                             row
                             value={sortOrder}
                             onChange={(e) => setSortOrder(e.target.value)}
                         >
-                            <FormControlLabel value="date" control={<Radio />} label="Last used" />
-                            <FormControlLabel value="browseTime" control={<Radio />} label="Browse times" />
+                            <FormControlLabel value="date" control={<Radio />} label="追加順" />
+                            <FormControlLabel value="browseTime" control={<Radio />} label="アクセス数の多い順" />
                         </RadioGroup>
                 </FormControl>
                 <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography>ASC</Typography>
+                    <Typography>昇順</Typography>
                     <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)}/>
-                    <Typography>DESC</Typography>
+                    <Typography>降順</Typography>
                 </Stack>
-            </>
+            </Box>
             <Box sx={{ border: 2, borderColor: "black" }}>
                 <List>
                     {sortedAndFilterdList.map((webSite, i) => 
