@@ -27,7 +27,7 @@ export default function HashTagsSorter({ hashTags, setHashTags }) {
     }, [order]);
 
     return (
-        <Box sx={{ marginLeft: 4, marginRight: 4}}>
+        <Box sx={{ marginLeft: 2 }}>
             <FormControl>
                 <FormLabel>#タグ　履歴</FormLabel>
                 <RadioGroup
