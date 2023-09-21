@@ -16,6 +16,7 @@ import {
     Switch,
     Grid
 } from "@mui/material";
+import { textOverflow } from "@mui/system";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
 
@@ -27,7 +28,7 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
             <Grid container spacing={{ xs: 1, sm: 2 }}>
                 <Grid item container alignItems="center" justifyContent="center" xs={4} sm={3} >
                     <Box sx={{ maxWidth: "130px", maxHeight: "130px" }}>
-                        <img alt="画像の取得に失敗" src={tmpImageUrl} width="100%" height="100%" />
+                        <img alt="画像の取得に失敗" src={webSite.imageURL} width="100%" height="100%" />
                     </Box>
                 </Grid>
                 <Grid item xs={7} sm={8} >
@@ -45,7 +46,15 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
                         href={webSite.url}
                         target="_blank"
                         onClick={(e) => increaseAccessCount(webSite)}
-                    >{'\u00A0' + webSite.siteTitle}</Link>
+                    >
+                        <Box
+                            whiteSpace='nowrap'
+                            textOverflow="ellipsis"
+                            overflow="hidden"
+                        >{'\u00A0' + webSite.siteTitle}</Box>
+                    </Link>
+
+
                 </Grid>
                 <Grid item container alignItems="center" justifyContent="center" xs={1} >
                     <DeleteOutlineOutlinedIcon onClick={(e) => deleteWebSite(webSite)} />
