@@ -3,7 +3,8 @@ import {
     RadioGroup,
     FormControlLabel,
     FormControl,
-    FormLabel
+    FormLabel,
+    Box
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -26,16 +27,18 @@ export default function HashTagsSorter({ hashTags, setHashTags }) {
     }, [order]);
 
     return (
-        <FormControl>
-            <FormLabel>Sort order</FormLabel>
-            <RadioGroup
-                row
-                value={order}
-                onChange={(e) => setOrder(e.target.value)}
-            >
-                <FormControlLabel value="date" control={<Radio />} label="Last used" />
-                <FormControlLabel value="useTime" control={<Radio />} label="Used times" />
-            </RadioGroup>
-        </FormControl>
+        <Box sx={{ marginLeft: 4, marginRight: 4}}>
+            <FormControl>
+                <FormLabel>#タグ　履歴</FormLabel>
+                <RadioGroup
+                    row
+                    value={order}
+                    onChange={(e) => setOrder(e.target.value)}
+                >
+                    <FormControlLabel value="date" control={<Radio />} label="新しい順" />
+                    <FormControlLabel value="useTime" control={<Radio />} label="頻度順" />
+                </RadioGroup>
+            </FormControl>
+        </Box>
     );
 }
