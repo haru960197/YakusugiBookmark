@@ -19,6 +19,8 @@ export default function Register({ registerWebSite, hashTags }) {
             url: urlInput,
             title: titleInput,
             hashTagNames: hashTagsInput,
+            imageURL: '',
+            faviconURL: '',
             siteTitle: '',
             registerDate: '',
             accessCount: 0
@@ -43,6 +45,8 @@ export default function Register({ registerWebSite, hashTags }) {
             const url = `https://opengraph.io/api/1.1/site/${encodeURIComponent(urlInput)}?app_id=45a56422-e9e6-475a-9605-794e9bde139a`;
             const response = await fetch(url);
             const data = await response.json();
+            webSite.imageURL = data.hybridGraph.image;
+            webSite.faviconURL = data.hybridGraph.favicon;
             webSite.siteTitle = data.hybridGraph.title;
         } catch (e) {
             console.error(e);
