@@ -14,7 +14,8 @@ import {
     FormLabel,
     Stack,
     Switch,
-    Grid
+    Grid,
+    Card
 } from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
@@ -122,8 +123,9 @@ export default function WebSiteList(
         , [filterdList, sortOrder, isDESC]);
 
     return (
-        <Box
-            sx={{ border: 2, borderColor: "#424242", margin: 2, padding: 2 }}
+        <Card
+            variant="outlined"
+            sx={{ margin: 2, padding: 2 }}
         >
             <Box>
                 <Typography variant="subtitle1">タイトルで絞り込み</Typography>
@@ -174,6 +176,6 @@ export default function WebSiteList(
                     )}
                 </List>
             </Box>
-        </Box>
+        </Card>
     );
 };
