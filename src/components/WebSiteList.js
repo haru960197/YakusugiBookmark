@@ -29,7 +29,7 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
         <ListItem>
             <Grid container spacing={{ xs: 1, sm: 2 }}>
                 <Grid item container alignItems="center" justifyContent="center" xs={4} sm={3} >
-                    <Box sx={{ maxWidth: "130px", maxHeight: "130px" }}>
+                    <Box sx={{ maxWidth: "130px", maxHeight: "130px", border: 1, borderColor: "#bdbdbd" }}>
                         <img alt="画像の取得に失敗" src={webSite.imageURL} width="100%" height="100%" />
                     </Box>
                 </Grid>
