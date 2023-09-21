@@ -24,7 +24,7 @@ export default function HashTagsSorter({ hashTags, setHashTags }) {
                 setHashTags(sortedHashTags);
             }
         }
-    }, [order]);
+    }, [hashTags, order]);
 
     return (
         <Box sx={{ marginLeft: 2 }}>
