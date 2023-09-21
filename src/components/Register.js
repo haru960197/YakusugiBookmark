@@ -13,7 +13,7 @@ export default function Register({ registerWebSite, hashTags }) {
         setTitleInput('');
         setHashTagsInput([]);
     }
-    
+
     async function handleRegister(e) {
         const webSite = {
             url: urlInput,
@@ -44,7 +44,7 @@ export default function Register({ registerWebSite, hashTags }) {
             const response = await fetch(url);
             const data = await response.json();
             webSite.siteTitle = data.hybridGraph.title;
-        } catch(e) {
+        } catch (e) {
             console.error(e);
         }
         setIsLoading(false);
@@ -54,44 +54,45 @@ export default function Register({ registerWebSite, hashTags }) {
     }
 
     return (
-        <>
-            <Stack spacing={2} sx={{ width: 300 }}>
-                <TextField
-                    value={urlInput}
-                    label="URL"
-                    onChange={(e) => setUrlInput(e.target.value)}
-                />
-                <TextField
-                    value={titleInput}
-                    label="Title"
-                    onChange={(e) => setTitleInput(e.target.value)}
-                />
-                <Autocomplete
-                    value={hashTagsInput}
-                    onChange={(e, newValueInput) => setHashTagsInput(newValueInput)}
-                    multiple
-                    freeSolo
-                    options={hashTags.map((option) => option.name)}
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                            <Chip label={option} {...getTagProps({ index })} />
-                        ))
-                    }
-                    renderInput={(params) => <TextField {...params} label="ハッシュタグ" />}
-                />
+        <Stack spacing={2} sx={{ margin: 4 }}>
+            <TextField
+                value={urlInput}
+                label="URL"
+                size="small"
+                onChange={(e) => setUrlInput(e.target.value)}
+            />
+            <TextField
+                value={titleInput}
+                label="タイトル"
+                size="small"
+                onChange={(e) => setTitleInput(e.target.value)}
+            />
+            <Autocomplete
+                value={hashTagsInput}
+                size="small"
+                onChange={(e, newValueInput) => setHashTagsInput(newValueInput)}
+                multiple
+                freeSolo
+                options={hashTags.map((option) => option.name)}
+                renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                        <Chip label={option} {...getTagProps({ index })} />
+                    ))
+                }
+                renderInput={(params) => <TextField {...params} label="#タグ" />}
+            />
+            <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                <Button
+                    variant="contained"
+                    onClick={(e) => resetForm()}
+                >リセット</Button>
+                <LoadingButton
+                    loading={isLoading}
+                    variant="contained"
+                    onClick={handleRegister}
+                    disabled={!urlInput}
+                >追加</LoadingButton>
             </Stack>
-            <Button
-                sx={{ marginTop: 2, marginRight: 2 }}
-                variant="contained"
-                onClick={(e) => resetForm()}
-            >Reset</Button>
-            <LoadingButton
-                sx={{ marginTop: 2 }}
-                loading={isLoading}
-                variant="contained"                
-                onClick={handleRegister}
-                disabled={!urlInput}
-            >Register</LoadingButton>
-        </>
+        </Stack>
     );
 };
