@@ -174,9 +174,8 @@ export default function WebSiteList(
             <CardContent>
                 <List>
                     {sortedAndFilterdList.map((webSite, i) => (
-                        <>
+                        <div key={`webSiteList-${i}`}>
                             <WebSiteListItem
-                                key={`webSiteList-${i}`}
                                 webSite={webSite}
                                 increaseAccessCount={increaseAccessCount}
                                 deleteWebSite={deleteWebSite}
@@ -185,7 +184,7 @@ export default function WebSiteList(
                                 ? <Divider />
                                 : undefined
                             }
-                        </>
+                        </div>
                     ))}
                 </List>
             </CardContent>
