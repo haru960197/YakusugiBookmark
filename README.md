@@ -76,6 +76,7 @@ APIKeyは各自で取得してもらうことになってしまった。GitHub�
 ## 注意点
 
 GitHub Pages に上げたウェブサイトはデモ版となっています。そのため、有効なAPIKeyがなく、サイトのサムネイルやファビコン、タイトルの取得ができません。
+
 したがって、利用する際はこのリポジトリをクローンし、下記サイトでApiKeyを取得し、「ApiKey.js」の中にそれを記述して利用してください。
 
 [https://www.opengraph.io/](https://www.opengraph.io/)
