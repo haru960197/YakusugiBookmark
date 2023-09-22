@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# 屋久杉ブックマーク
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+「URL」「タイトル（メモ）」「#タグ」を入力してウェブサイトを登録し、管理するためのウェブアプリケーション。
 
-## Available Scripts
+タイトルを自分でつけることや#タグにより後から自分で検索などがしやすくなる
 
-In the project directory, you can run:
+[サイト（デモ版）はこちら](https://haru960197.github.io/YakusugiBookmark/)
+![siteImage](https://github.com/haru960197/YakusugiBookmark/assets/124692504/ab8ffdab-fb87-4722-bdbf-939d7ab000d1)
 
-### `npm start`
+***
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 開発の動機
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+開発合宿を通して何を作ろうか悩んでいる中で思いついた。
+「LaTeXの書式まとめサイト」などを作ろうとしていたが、それよりもほかのジャンルに対応し、カスタマイズできるサイトのほうがいいのでは、と思った。
+まだまだ未熟な自分にとって、開発を通して学びが多いだろうと思った。
+（なぜ「屋久杉」？→開発合宿の初めに、師匠に「屋久杉の栞」のお土産を渡したことに由来している）
+![yakusugi-bookmark](https://github.com/haru960197/YakusugiBookmark/assets/124692504/47ceccbe-743d-47cb-812d-b2355302320b)
 
-### `npm test`
+***
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 「屋久杉ブックマーク」の特徴や機能
 
-### `npm run build`
+- 「タイトル」と「#タグ」（複数可能）をサイトに対してつけることができる
+- サイトの「サムネイル」「ファビコン」を自動でとってきてくれる。
+- 使用した#タグは履歴として残り、「新しい順」「頻度順」を選択してソートできる
+- 「タイトル」または「#タグ」で検索が可能。
+- サイトの並び順も自分で選択するこができる。
+- Material UIを使用した、モダンでResponseiveなデザイン
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+***
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 開発途中で行き詰った点と解決策
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Local Storageの扱い
+→状態変数初期化する際にデータを取得。状態変数を更新する関数の最後にLocal Storageをアップデート
+![image](https://github.com/haru960197/YakusugiBookmark/assets/124692504/973c86a2-6bbc-4c1e-bf17-cf45a92fd359)
 
-### `npm run eject`
+- サムネイルやfaviconが、CORSによりfetchで取得できない
+→CORSはどうしようもなかったので、外部APIを使用。無料プランでAPIKeyを取得しているので、月に1000回までしかfetchできない。
+APIKeyは各自で取得してもらうことになってしまった。GitHubにはデモ版をアップし、サムネイルとfaviconはデフォルトの画像を充てた。
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- レイアウト調整
+→Material UIのGridを主に使用。Gridを入れ子にすることでいい感じになった。
+`<Grid item container >`でアイテムとコンテナを兼ねることができる。この子は一つなら`<Grid item >`で囲わずにそのまま要素を入れてよい。
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- 長いサイトのタイトルは切って「…」をつけたい
+`<Link>`タグに直接その機能をつけることは
+できなかったので、`<Link>`タグ内に`<Box>`タグ
+を入れ、その中にタイトルを入れたらうまく
+いった。
+![image](https://github.com/haru960197/YakusugiBookmark/assets/124692504/0e5bad20-417d-4f31-b96f-b050f5179670)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+***
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 開発合宿を通して得た技術的学び
 
-## Learn More
+- 状態変数が変化したときに行いたい処理は、`useEffect()`の副作用関数の中に書くか、ハンドラの中のみ。`set~()`はトップレベルで使ってはならない。
+- `useState()`はトップレベルで使わなければならない。
+- HTML要素は基本的に内側から、子要素によって幅が決まる。Ex) `<Stack />`は子要素が長ければいくらでも伸びてしまう。
+- `<Card>`の内部で`<Divider />`を使うときは、前後の要素を`<CardContent >`で囲わないと端から端まで線がいかない
+- APIKeyなどは、別jsファイルが吐き出すようにし、githubではkey同じ桁数で000000などにする。また、git log を残している場合、プッシュする前にAPIKeyを更新して、ネットに有効なAPIKeyが公開されないようにする。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+***
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 今後の展望
 
-### Code Splitting
+- タイトルだけでなく、編集可能な「メモ」機能をつけたいかも。メモは、押したらメモが出てくるなどアイコンなどで実装すればスペースがなくてもいけそう。
+- 最初に「サイトのサムネイルやファビコンが必要な場合、下記サイトからAPIKeyを取得し、入力してください」のようなダイアログを表示させ、APIKeyをLocal Storageに保存し、動くように修正したい。
+- サーバーを立てることで、APIKeyなどが必要なくなるかもしれない。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+***
 
-### Analyzing the Bundle Size
+## 注意点
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+GitHub Pages に上げたウェブサイトはデモ版となっています。そのため、有効なAPIKeyがなく、サイトのサムネイルやファビコン、タイトルの取得ができません。
+したがって、利用する際はこのリポジトリをクローンし、下記サイトでApiKeyを取得し、「ApiKey.js」の中にそれを記述して利用してください。
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[https://www.opengraph.io/](https://www.opengraph.io/)
