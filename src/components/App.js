@@ -1,10 +1,15 @@
 import Register from './Register';
 import WebSiteList from './WebSiteList';
 import HashTagList from './HashTagList';
+import ApiKeyDialog from './ApiKeyDialog';
 import { useState } from 'react';
 import { Grid, Typography } from "@mui/material"
 
 function App() {
+  const [apiKey, setApiKey] = useState(
+    localStorage.getItem('apiKey') ? localStorage.getItem('apiKey') : ''
+  );
+
   const [webSites, setWebSites] = useState(
     localStorage.getItem('webSites') ? JSON.parse(localStorage.getItem('webSites')) : []
   );
@@ -85,6 +90,7 @@ function App() {
 
   return (
     <div>
+      <ApiKeyDialog setApiKey={setApiKey}/>
       <Grid container spacing={4}>
         <Grid item container direction="column" xs={12} sm={4}>
           <Grid item sx={{ marginTop: 2, marginBottom: 1, mx: 5 }}>
@@ -94,6 +100,7 @@ function App() {
             <Register
               registerWebSite={addWebSite}
               hashTags={hashTags}
+              apiKey={apiKey}
             />
           </Grid>
           <Grid item>

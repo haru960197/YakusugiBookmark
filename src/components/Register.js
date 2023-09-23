@@ -1,9 +1,8 @@
 import { Autocomplete, TextField, Stack, Button, Chip, Card, CardContent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
-import API_KEY from "./ApiKey";
 
-export default function Register({ registerWebSite, hashTags }) {
+export default function Register({ registerWebSite, hashTags, apiKey }) {
     const [urlInput, setUrlInput] = useState('');
     const [titleInput, setTitleInput] = useState('');
     const [hashTagsInput, setHashTagsInput] = useState([]);
@@ -43,7 +42,7 @@ export default function Register({ registerWebSite, hashTags }) {
         // Fetch the title of the web-site
         setIsLoading(true);
         try {
-            const url = `https://opengraph.io/api/1.1/site/${encodeURIComponent(urlInput)}?app_id=${API_KEY}`;
+            const url = `https://opengraph.io/api/1.1/site/${encodeURIComponent(urlInput)}?app_id=${apiKey}`;
             const response = await fetch(url);
             const data = await response.json();
             webSite.imageURL = data.hybridGraph.image;
@@ -53,7 +52,7 @@ export default function Register({ registerWebSite, hashTags }) {
             console.error(e);
             webSite.imageURL = "https://raw.githubusercontent.com/haru960197/YakusugiBookmark/master/public/yakusugi_logo256.png";
             webSite.faviconURL = "https://github.com/haru960197/YakusugiBookmark/blob/master/public/defaultFavicon.png?raw=true";
-            webSite.siteTitle = "デモ版のためデフォルトタイトルを表示しています";
+            webSite.siteTitle = "タイトルを取得できませんでした";
         }
         setIsLoading(false);
 
