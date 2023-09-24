@@ -2,10 +2,31 @@ import Register from './Register';
 import WebSiteList from './WebSiteList';
 import HashTagList from './HashTagList';
 import ApiKeyDialog from './ApiKeyDialog';
-import { useState } from 'react';
+import ColorModeButton from './ColorModeButton';
+import { useMemo, useState } from 'react';
 import { Grid, Typography } from "@mui/material"
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
+  const [mode, setMode] = useState(
+    localStorage.getItem('mode') ? localStorage.getItem('mode') : 'light'
+  );
+  const theme = useMemo(
+    () => (
+      createTheme({
+        palette: {
+          mode
+        }
+      })
+    ), [mode]
+  );
+  function toggleMode() {
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
+    localStorage.setItem('mode', newMode);
+  }
+
   const [apiKey, setApiKey] = useState(
     localStorage.getItem('apiKey') ? localStorage.getItem('apiKey') : ''
   );
@@ -25,14 +46,14 @@ function App() {
     const date = new Date();
     const lastUsedDate =
       `${date.getFullYear() * 1000000 + date.getMonth() * 10000
-          + date.getDate() * 100 + date.getHours()}`;
+      + date.getDate() * 100 + date.getHours()}`;
 
     names.forEach((name) => {
       if (hashTags.find((hashTag) => hashTag.name === name)) {
         // name is already registered.
-        newHashTags = newHashTags.map((hashTag) => 
+        newHashTags = newHashTags.map((hashTag) =>
           hashTag.name === name
-            ? { name: name, count: hashTag.count + 1, lastUsedDate: lastUsedDate}
+            ? { name: name, count: hashTag.count + 1, lastUsedDate: lastUsedDate }
             : hashTag
         );
       } else {
@@ -79,7 +100,7 @@ function App() {
   function increaseAccessCount(targetWebSite) {
     const newWebSites = webSites.map((webSite) => {
       if (webSite === targetWebSite) {
-        return ({...webSite, accessCount: webSite.accessCount + 1});
+        return ({ ...webSite, accessCount: webSite.accessCount + 1 });
       } else {
         return webSite;
       }
@@ -89,8 +110,9 @@ function App() {
   }
 
   return (
-    <div>
-      <ApiKeyDialog setApiKey={setApiKey}/>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ApiKeyDialog setApiKey={setApiKey} />
       <Grid container spacing={4}>
         <Grid item container direction="column" xs={12} sm={4}>
           <Grid item sx={{ marginTop: 2, marginBottom: 1, mx: 5 }}>
@@ -104,19 +126,24 @@ function App() {
             />
           </Grid>
           <Grid item>
-            <HashTagList hashTags={hashTags} setHashTags={setHashTags}/>
+            <HashTagList hashTags={hashTags} setHashTags={setHashTags} />
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={8}>
-          <WebSiteList
-            hashTagList={hashTags}
-            webSites={webSites}
-            increaseAccessCount={increaseAccessCount}
-            deleteWebSite={deleteWebSite}
-          />
+        <Grid item container direction="column" xs={12} sm={8}>
+          <Grid item container justifyContent="flex-end" >
+            <ColorModeButton toggleColorMode={toggleMode}/>
+          </Grid>
+          <Grid item>
+            <WebSiteList
+              hashTagList={hashTags}
+              webSites={webSites}
+              increaseAccessCount={increaseAccessCount}
+              deleteWebSite={deleteWebSite}
+            />
+          </Grid>
         </Grid>
       </Grid>
-    </div>
+    </ThemeProvider>
   );
 }
 
