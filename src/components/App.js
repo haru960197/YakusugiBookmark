@@ -12,15 +12,23 @@ function App() {
   const [mode, setMode] = useState(
     localStorage.getItem('mode') ? localStorage.getItem('mode') : 'light'
   );
-  const theme = useMemo(
-    () => (
-      createTheme({
+  function getDesignToken(mode) {
+    return (
+      {
         palette: {
-          mode
+          mode,
+          ...(mode === 'light'
+            ? {}
+            : {
+              text: {
+                primary: '#1e88e5',
+              },
+            })
         }
-      })
-    ), [mode]
-  );
+      }
+    );
+  }
+  const theme = useMemo(() => createTheme(getDesignToken(mode)), [mode]);
   function toggleMode() {
     const newMode = mode === 'light' ? 'dark' : 'light';
     setMode(newMode);
