@@ -62,6 +62,16 @@
 - HTML要素は基本的に内側から、子要素によって幅が決まる。Ex) `<Stack />`は子要素が長ければいくらでも伸びてしまう。
 - `<Card>`の内部で`<Divider />`を使うときは、前後の要素を`<CardContent >`で囲わないと端から端まで線がいかない
 - APIKeyなどは、別jsファイルが吐き出すようにし、githubではkey同じ桁数で000000などにする。また、git log を残している場合、プッシュする前にAPIKeyを更新して、ネットに有効なAPIKeyが公開されないようにする。(2023/09/23 ダイアログで入力してもらうように修正)
+- テーマを動的に変更する際、コンポーネントだけでなく背景もともにテーマを反映させたい場合は、
+  ```
+  import CssBaseline from '@mui/material/CssBaseline';
+  
+  <ThemeProvider theme={theme}>
+      <CssBaseline />
+      ~~~
+  </ThemeProvider>
+  ```
+  とする。
 
 ***
 
