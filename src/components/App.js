@@ -9,6 +9,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
+  const [dialogOpen, setDialogOpen] = useState(!Boolean(localStorage.getItem('apiKey')));
+
   const [mode, setMode] = useState(
     localStorage.getItem('mode') ? localStorage.getItem('mode') : 'light'
   );
@@ -120,7 +122,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ApiKeyDialog setApiKey={setApiKey} />
+      <ApiKeyDialog open={dialogOpen} setOpen={setDialogOpen} setApiKey={setApiKey} />
       <Grid container spacing={4}>
         <Grid item container direction="column" xs={12} sm={4}>
           <Grid item sx={{ marginTop: 2, marginBottom: 1, mx: 5 }}>

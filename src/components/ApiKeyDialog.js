@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from 'react';
 
-export default function ApiKeyDialog({ setApiKey }) {
-    const [open, setOpen] = useState(!Boolean(localStorage.getItem('apiKey')));
+export default function ApiKeyDialog({ open, setOpen, setApiKey }) {
     const [rejected, setRejected] = useState(false);
     const [keyInput, setKeyInput] = useState("");
     const apiKeySiteUrl = "https://www.opengraph.io/";
