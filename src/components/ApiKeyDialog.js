@@ -20,7 +20,6 @@ export default function ApiKeyDialog({ open, setOpen, setApiKey }) {
     function handleRegister() {
         localStorage.setItem('apiKey', keyInput);
         setApiKey(keyInput);
-        setKeyInput("");
         setOpen(false);
         setRejected(false);
     }
