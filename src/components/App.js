@@ -3,6 +3,7 @@ import WebSiteList from './WebSiteList';
 import HashTagList from './HashTagList';
 import ApiKeyDialog from './ApiKeyDialog';
 import ColorModeButton from './ColorModeButton';
+import ApiKeyResetButton from './ApiKeyResetButton';
 import { useMemo, useState } from 'react';
 import { Grid, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -141,7 +142,7 @@ function App() {
         </Grid>
         <Grid item container direction="column" xs={12} sm={8}>
           <Grid item container justifyContent="flex-end" >
-            <ColorModeButton toggleColorMode={toggleMode}/>
+            <ColorModeButton toggleColorMode={toggleMode} />
           </Grid>
           <Grid item>
             <WebSiteList
@@ -150,6 +151,9 @@ function App() {
               increaseAccessCount={increaseAccessCount}
               deleteWebSite={deleteWebSite}
             />
+            <Grid item container justifyContent="flex-end" >
+              <ApiKeyResetButton setDialogOpen={setDialogOpen} />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
