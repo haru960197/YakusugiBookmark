@@ -22,8 +22,6 @@ import {
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
 
-const tmpImageUrl = "https://pbs.twimg.com/media/D4WoUCLU4AYgho_.jpg"
-
 function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
     return (
         <ListItem>
