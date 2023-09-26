@@ -4,7 +4,7 @@ import HashTagList from './HashTagList';
 import ApiKeyDialog from './ApiKeyDialog';
 import ColorModeButton from './ColorModeButton';
 import { useMemo, useState } from 'react';
-import { Grid, Typography } from "@mui/material"
+import { Grid, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
