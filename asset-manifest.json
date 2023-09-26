@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/YakusugiBookmark/static/css/main.8afa527d.css",
-    "main.js": "/YakusugiBookmark/static/js/main.8930923d.js",
+    "main.js": "/YakusugiBookmark/static/js/main.ed6cbdd0.js",
     "static/js/787.a89d5dbc.chunk.js": "/YakusugiBookmark/static/js/787.a89d5dbc.chunk.js",
     "static/media/roboto-latin-500-normal.woff2": "/YakusugiBookmark/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
     "static/media/roboto-latin-700-normal.woff2": "/YakusugiBookmark/static/media/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
@@ -61,11 +61,11 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/YakusugiBookmark/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/YakusugiBookmark/index.html",
     "main.8afa527d.css.map": "/YakusugiBookmark/static/css/main.8afa527d.css.map",
-    "main.8930923d.js.map": "/YakusugiBookmark/static/js/main.8930923d.js.map",
+    "main.ed6cbdd0.js.map": "/YakusugiBookmark/static/js/main.ed6cbdd0.js.map",
     "787.a89d5dbc.chunk.js.map": "/YakusugiBookmark/static/js/787.a89d5dbc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8afa527d.css",
-    "static/js/main.8930923d.js"
+    "static/js/main.ed6cbdd0.js"
   ]
 }
