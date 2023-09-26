@@ -23,6 +23,7 @@ export default function ApiKeyDialog({ setApiKey }) {
         setApiKey(keyInput);
         setKeyInput("");
         setOpen(false);
+        setRejected(false);
     }
 
     function handleCancel() {
@@ -32,6 +33,7 @@ export default function ApiKeyDialog({ setApiKey }) {
         }
         setKeyInput("");
         setOpen(false);
+        setRejected(false);
     }
 
     return (
@@ -60,7 +62,11 @@ export default function ApiKeyDialog({ setApiKey }) {
                 />
                 <FormControlLabel
                     control={
-                        <Checkbox size="small" onChange={(e) => setRejected(e.target.checked)}/>
+                        <Checkbox
+                            checked={rejected}
+                            size="small"
+                            onChange={(e) => setRejected(e.target.checked)}
+                        />
                     }
                     label="今後このメッセージを表示しない"
                 />
