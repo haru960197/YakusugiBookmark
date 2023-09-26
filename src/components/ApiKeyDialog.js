@@ -6,12 +6,15 @@ import {
     DialogTitle,
     TextField,
     Link,
-    Button
+    Button,
+    FormControlLabel,
+    Checkbox
 } from "@mui/material";
 import { useState } from 'react';
 
 export default function ApiKeyDialog({ setApiKey }) {
     const [open, setOpen] = useState(!Boolean(localStorage.getItem('apiKey')));
+    const [rejected, setRejected] = useState(false);
     const [keyInput, setKeyInput] = useState("");
     const apiKeySiteUrl = "https://www.opengraph.io/";
 
@@ -23,6 +26,10 @@ export default function ApiKeyDialog({ setApiKey }) {
     }
 
     function handleCancel() {
+        if (rejected) {
+            localStorage.setItem('apiKey', "rejected");
+            setApiKey("rejected");
+        }
         setKeyInput("");
         setOpen(false);
     }
@@ -50,6 +57,12 @@ export default function ApiKeyDialog({ setApiKey }) {
                     variant="standard"
                     value={keyInput}
                     onChange={(e) => setKeyInput(e.target.value)}
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox size="small" onChange={(e) => setRejected(e.target.checked)}/>
+                    }
+                    label="今後このメッセージを表示しない"
                 />
             </DialogContent>
             <DialogActions>
