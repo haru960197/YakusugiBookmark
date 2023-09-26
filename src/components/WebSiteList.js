@@ -105,7 +105,7 @@ function sortList(filterdList, sortOrder, isDESC) {
 }
 
 export default function WebSiteList(
-    { hashTagList, webSites, increaseAccessCount, deleteWebSite }) {
+    { hashTagList, webSites, increaseAccessCount, deleteWebSite, windowIsSmall }) {
 
     const [filterdList, setFilterdList] = useState([]);
     const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
@@ -125,7 +125,7 @@ export default function WebSiteList(
     return (
         <Card
             variant="outlined"
-            sx={{ margin: 2, marginLeft: 0 }}
+            sx={{ margin: 2, marginLeft: windowIsSmall ? 2 : 0, }}
         >
             <CardContent>
                 <Box>

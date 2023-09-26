@@ -2,7 +2,7 @@ import { Autocomplete, TextField, Stack, Button, Chip, Card, CardContent } from 
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 
-export default function Register({ registerWebSite, hashTags, apiKey }) {
+export default function Register({ registerWebSite, hashTags, apiKey, windowIsSmall }) {
     const [urlInput, setUrlInput] = useState('');
     const [titleInput, setTitleInput] = useState('');
     const [hashTagsInput, setHashTagsInput] = useState([]);
@@ -63,7 +63,7 @@ export default function Register({ registerWebSite, hashTags, apiKey }) {
     return (
         <Card
             variant="outlined"
-            sx={{ margin: 2, marginLeft: 4 }}
+            sx={{ margin: 2, marginLeft: windowIsSmall ? 2 : 4, }}
         >
             <CardContent>
                 <Stack spacing={2} >

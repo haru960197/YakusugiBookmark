@@ -5,7 +5,7 @@ import ApiKeyDialog from './ApiKeyDialog';
 import ColorModeButton from './ColorModeButton';
 import ApiKeyResetButton from './ApiKeyResetButton';
 import { useMemo, useState } from 'react';
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -37,6 +37,8 @@ function App() {
     setMode(newMode);
     localStorage.setItem('mode', newMode);
   }
+
+  const windowIsSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [apiKey, setApiKey] = useState(
     localStorage.getItem('apiKey') ? localStorage.getItem('apiKey') : ''
@@ -124,20 +126,25 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ApiKeyDialog open={dialogOpen} setOpen={setDialogOpen} setApiKey={setApiKey} />
-      <Grid container spacing={4}>
+      <Grid container spacing={windowIsSmall ? 0 : 4}>
         <Grid item container direction="column" xs={12} sm={4}>
           <Grid item sx={{ marginTop: 2, marginBottom: 1, mx: 5 }}>
-            <Typography variant='h4'>屋久杉ブックマーク</Typography>
+            <Typography variant={windowIsSmall ? 'h5' : 'h4'}>屋久杉ブックマーク</Typography>
           </Grid>
           <Grid item>
             <Register
               registerWebSite={addWebSite}
               hashTags={hashTags}
               apiKey={apiKey}
+              windowIsSmall={windowIsSmall}
             />
           </Grid>
           <Grid item>
-            <HashTagList hashTags={hashTags} setHashTags={setHashTags} />
+            <HashTagList
+              hashTags={hashTags}
+              setHashTags={setHashTags}
+              windowIsSmall={windowIsSmall}
+            />
           </Grid>
         </Grid>
         <Grid item container direction="column" xs={12} sm={8}>
@@ -150,6 +157,7 @@ function App() {
               webSites={webSites}
               increaseAccessCount={increaseAccessCount}
               deleteWebSite={deleteWebSite}
+              windowIsSmall={windowIsSmall}
             />
             <Grid item container justifyContent="flex-end" >
               <ApiKeyResetButton setDialogOpen={setDialogOpen} />
