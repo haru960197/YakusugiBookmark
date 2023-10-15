@@ -72,6 +72,7 @@
   </ThemeProvider>
   ```
   とする。（2023/09/24 追加）
+- MUIの`<CardContent>`や`<List>`、`<ListItem>`などは、何か特別な機能を使わない限り、padding, marginなどをうまい具合に調整するものであり、無理に使う必要はない。
 
 ***
 
