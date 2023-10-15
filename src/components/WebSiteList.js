@@ -22,9 +22,9 @@ import {
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
 
-function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
+function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite, padding }) {
     return (
-        <ListItem>
+        <ListItem sx={{ padding }}>
             <Grid container spacing={{ xs: 1, sm: 2 }}>
                 <Grid item container alignItems="center" justifyContent="center" xs={4} sm={3} >
                     <Box sx={{ maxWidth: "130px", maxHeight: "130px", border: 1, borderColor: "#bdbdbd" }}>
@@ -183,7 +183,7 @@ export default function WebSiteList(
     { hashTagList, webSites, increaseAccessCount, deleteWebSite, windowIsSmall }) {
     const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
     const [twoRowList, setTwoRowList] = useState([]);
-    const [showListByTwoRow, setShowListByTwoRow] = useState(true);
+    const [showListByTwoRow, setShowListByTwoRow] = useState(false);
 
     useEffect(() => {
         setTwoRowList(makeGroupedList(sortedAndFilterdList, 2));
@@ -204,52 +204,59 @@ export default function WebSiteList(
 
             <Divider />
 
-            <CardContent>
-                <List>
-                    {showListByTwoRow || windowIsSmall
-                        ? twoRowList.map((webSites, i) => (
-                            <div key={`webSiteLists-${i}`}>
-                                <Stack direction="row" >
-                                    {webSites[0] ?
+            <List sx={{ px: 2 }}>
+                {showListByTwoRow || windowIsSmall
+                    ? twoRowList.map((webSites, i) => (
+                        <div key={`webSiteLists-${i}`}>
+                            <Grid container>
+                                {webSites[0] ?
+                                    <Grid item xs={5.95}>
                                         <WebSiteListItem
                                             webSite={webSites[0]}
                                             increaseAccessCount={increaseAccessCount}
                                             deleteWebSite={deleteWebSite}
-                                        /> :
-                                        undefined
-                                    }
-                                    <Divider orientation="vertical" flexItem />
-                                    {webSites[1] ?
+                                            padding={1}
+                                        />
+                                    </Grid> :
+                                    undefined
+                                }
+                                <Divider orientation="vertical" variant="middle" flexItem />
+
+                                {webSites[1] ?
+                                    <Grid item xs={5.9}>
                                         <WebSiteListItem
                                             webSite={webSites[1]}
                                             increaseAccessCount={increaseAccessCount}
                                             deleteWebSite={deleteWebSite}
-                                        /> :
-                                        undefined
-                                    }
-                                </Stack>
-                                {i !== twoRowList.length - 1
-                                    ? <Divider />
-                                    : undefined
+                                            padding={1}
+                                        />
+                                    </Grid> :
+                                    undefined
                                 }
-                            </div>
-                        ))
-                        : sortedAndFilterdList.map((webSite, i) => (
-                            <div key={`webSiteList-${i}`}>
-                                <WebSiteListItem
-                                    webSite={webSite}
-                                    increaseAccessCount={increaseAccessCount}
-                                    deleteWebSite={deleteWebSite}
-                                />
-                                {i !== sortedAndFilterdList.length - 1
-                                    ? <Divider />
-                                    : undefined
-                                }
-                            </div>
-                        ))
-                    }
-                </List>
-            </CardContent>
-        </Card>
+                            </Grid>
+                            {i !== twoRowList.length - 1
+                                ? <Divider />
+                                : undefined
+                            }
+                        </div>
+                    ))
+                    : sortedAndFilterdList.map((webSite, i) => (
+                        <div key={`webSiteList-${i}`}>
+                            <WebSiteListItem
+                                webSite={webSite}
+                                increaseAccessCount={increaseAccessCount}
+                                deleteWebSite={deleteWebSite}
+                                padding={3}
+                            />
+                            {i !== sortedAndFilterdList.length - 1
+                                ? <Divider />
+                                : undefined
+                            }
+                        </div>
+                    ))
+                }
+            </List>
+
+        </Card >
     );
 };
