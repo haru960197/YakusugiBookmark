@@ -162,9 +162,27 @@ function sortList(filterdList, sortOrder, isDESC) {
     return sortedList;
 }
 
+function makeGroupedList(list, sameGroupNum) {
+    const groupedList = []
+    for (let i = 0; i < list.length; i += sameGroupNum) {
+        const sameGroupList = [];
+        for (let j = 0; j < sameGroupNum; j++) {
+            sameGroupList.push(list[i + j]);
+        }
+        groupedList.push(sameGroupList);
+    }
+    return groupedList;
+}
+
 export default function WebSiteList(
     { hashTagList, webSites, increaseAccessCount, deleteWebSite, windowIsSmall }) {
     const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
+    const [twoRowList, setTwoRowList] = useState([]);
+    const [showListByTwoRow, setShowListByTwoRow] = useState(false);
+
+    useEffect(() => {
+        setTwoRowList(makeGroupedList(sortedAndFilterdList, 2));
+    }, [sortedAndFilterdList, showListByTwoRow])
 
     return (
         <Card
@@ -183,19 +201,48 @@ export default function WebSiteList(
 
             <CardContent>
                 <List>
-                    {sortedAndFilterdList.map((webSite, i) => (
-                        <div key={`webSiteList-${i}`}>
-                            <WebSiteListItem
-                                webSite={webSite}
-                                increaseAccessCount={increaseAccessCount}
-                                deleteWebSite={deleteWebSite}
-                            />
-                            {i !== sortedAndFilterdList.length - 1
-                                ? <Divider />
-                                : undefined
-                            }
-                        </div>
-                    ))}
+                    {!showListByTwoRow
+                        ? sortedAndFilterdList.map((webSite, i) => (
+                            <div key={`webSiteList-${i}`}>
+                                <WebSiteListItem
+                                    webSite={webSite}
+                                    increaseAccessCount={increaseAccessCount}
+                                    deleteWebSite={deleteWebSite}
+                                />
+                                {i !== sortedAndFilterdList.length - 1
+                                    ? <Divider />
+                                    : undefined
+                                }
+                            </div>
+                        ))
+                        : twoRowList.map((webSites, i) => (
+                            <div key={`webSiteLists-${i}`}>
+                                <Stack direction="row" >
+                                    {webSites[0] ?
+                                        <WebSiteListItem
+                                            webSite={webSites[0]}
+                                            increaseAccessCount={increaseAccessCount}
+                                            deleteWebSite={deleteWebSite}
+                                        /> :
+                                        undefined
+                                    }
+                                    <Divider orientation="vertical" flexItem />
+                                    {webSites[1] ?
+                                        <WebSiteListItem
+                                            webSite={webSites[1]}
+                                            increaseAccessCount={increaseAccessCount}
+                                            deleteWebSite={deleteWebSite}
+                                        /> :
+                                        undefined
+                                    }
+                                </Stack>
+                                {i !== twoRowList.length - 1
+                                    ? <Divider />
+                                    : undefined
+                                }
+                            </div>
+                        ))
+                    }
                 </List>
             </CardContent>
         </Card>
