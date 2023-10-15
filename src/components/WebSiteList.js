@@ -32,7 +32,12 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
                     </Box>
                 </Grid>
                 <Grid item xs={7} sm={8} >
-                    <Typography variant="h5">{'・' + webSite.title}</Typography>
+                    <Typography
+                        variant="h5"
+                        whiteSpace='nowrap'
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                    >{'・' + webSite.title}</Typography>
                     <Grid item container >
                         {webSite.hashTagNames.map((name, i) => (
                             <Grid item key={`${webSite.name}-hashtags-${i}`}>
