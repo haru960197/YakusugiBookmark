@@ -75,7 +75,8 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite, padding 
 }
 
 function ListArrangeForm(
-    { hashTagList, webSites, setSortedAndFilterdList, listRow, setListRow }) {
+    { hashTagList, webSites, setSortedAndFilterdList,
+        listRow, setListRow, windowIsSmall }) {
     const [filterdList, setFilterdList] = useState([]);
 
     const [title, setTitle] = useState('');
@@ -131,15 +132,22 @@ function ListArrangeForm(
                         <FormControlLabel value="browseTime" control={<Radio />} label="アクセス数の多い順" />
                     </RadioGroup>
                 </FormControl>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography>昇順</Typography>
-                    <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
-                    <Typography>降順</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography>2列</Typography>
-                    <Switch checked={isOneRow} onChange={(e) => setIsOneRow(e.target.checked)} />
-                    <Typography>1列</Typography>
+                <Stack direction="row" spacing={6}>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography>昇順</Typography>
+                        <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
+                        <Typography>降順</Typography>
+                    </Stack>
+                    {
+                        // 画面が小さいときは表示しない
+                        !windowIsSmall
+                            ? <Stack direction="row" spacing={1} alignItems="center">
+                                <Typography>2列</Typography>
+                                <Switch checked={isOneRow} onChange={(e) => setIsOneRow(e.target.checked)} />
+                                <Typography>1列</Typography>
+                            </Stack>
+                            : undefined
+                    }
                 </Stack>
             </Box>
         </div>
@@ -219,6 +227,7 @@ export default function WebSiteList(
                     setSortedAndFilterdList={setSortedAndFilterdList}
                     listRow={listRow}
                     setListRow={setListRow}
+                    windowIsSmall={windowIsSmall}
                 />
             </CardContent>
 
