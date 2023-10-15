@@ -69,6 +69,64 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite }) {
     );
 }
 
+function ListArrangeForm({ hashTagList, webSites, setSortedAndFilterdList }) {
+    const [filterdList, setFilterdList] = useState([]);
+
+    const [title, setTitle] = useState('');
+    const [hashTags, setHashTags] = useState([]);
+    useEffect(
+        () => setFilterdList(filterList(webSites, title, hashTags))
+        , [webSites, title, hashTags]);
+
+    const [sortOrder, setSortOrder] = useState('date');
+    const [isDESC, setIsDESC] = useState(true);
+    useEffect(
+        () => setSortedAndFilterdList(sortList(filterdList, sortOrder, isDESC))
+        , [filterdList, sortOrder, isDESC]);
+
+    return (
+        <div>
+            <Box>
+                <Typography variant="subtitle1">タイトルで絞り込み</Typography>
+                <TextField size="small" fullWidth label="タイトル" onChange={(e) => setTitle(e.target.value)} />
+            </Box>
+            <Box sx={{ marginTop: 1 }}>
+                <Typography variant="subtitle1">#タグで絞り込み</Typography>
+                <Autocomplete
+                    size="small"
+                    onChange={(e, newHashTags) => setHashTags(newHashTags)}
+                    multiple
+                    options={hashTagList.map((option) => option.name)}
+                    renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                            <Chip label={option} {...getTagProps({ index })} />
+                        ))
+                    }
+                    renderInput={(params) => <TextField {...params} label="#タグ" />}
+                />
+            </Box>
+            <Box sx={{ marginTop: 2, paddingLeft: 1.5 }}>
+                <FormControl>
+                    <FormLabel>並び順</FormLabel>
+                    <RadioGroup
+                        row
+                        value={sortOrder}
+                        onChange={(e) => setSortOrder(e.target.value)}
+                    >
+                        <FormControlLabel value="date" control={<Radio />} label="追加順" />
+                        <FormControlLabel value="browseTime" control={<Radio />} label="アクセス数の多い順" />
+                    </RadioGroup>
+                </FormControl>
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography>昇順</Typography>
+                    <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
+                    <Typography>降順</Typography>
+                </Stack>
+            </Box>
+        </div>
+    )
+}
+
 function filterList(webSites, title, hashTags) {
     let filterdList = [...webSites];
 
@@ -106,21 +164,7 @@ function sortList(filterdList, sortOrder, isDESC) {
 
 export default function WebSiteList(
     { hashTagList, webSites, increaseAccessCount, deleteWebSite, windowIsSmall }) {
-
-    const [filterdList, setFilterdList] = useState([]);
     const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
-
-    const [title, setTitle] = useState('');
-    const [hashTags, setHashTags] = useState([]);
-    useEffect(
-        () => setFilterdList(filterList(webSites, title, hashTags))
-        , [webSites, title, hashTags]);
-
-    const [sortOrder, setSortOrder] = useState('date');
-    const [isDESC, setIsDESC] = useState(true);
-    useEffect(
-        () => setSortedAndFilterdList(sortList(filterdList, sortOrder, isDESC))
-        , [filterdList, sortOrder, isDESC]);
 
     return (
         <Card
@@ -128,43 +172,11 @@ export default function WebSiteList(
             sx={{ margin: 2, marginLeft: windowIsSmall ? 2 : 0, }}
         >
             <CardContent>
-                <Box>
-                    <Typography variant="subtitle1">タイトルで絞り込み</Typography>
-                    <TextField size="small" fullWidth label="タイトル" onChange={(e) => setTitle(e.target.value)} />
-                </Box>
-                <Box sx={{ marginTop: 1 }}>
-                    <Typography variant="subtitle1">#タグで絞り込み</Typography>
-                    <Autocomplete
-                        size="small"
-                        onChange={(e, newHashTags) => setHashTags(newHashTags)}
-                        multiple
-                        options={hashTagList.map((option) => option.name)}
-                        renderTags={(value, getTagProps) =>
-                            value.map((option, index) => (
-                                <Chip label={option} {...getTagProps({ index })} />
-                            ))
-                        }
-                        renderInput={(params) => <TextField {...params} label="#タグ" />}
-                    />
-                </Box>
-                <Box sx={{ marginTop: 2, paddingLeft: 1.5 }}>
-                    <FormControl>
-                        <FormLabel>並び順</FormLabel>
-                        <RadioGroup
-                            row
-                            value={sortOrder}
-                            onChange={(e) => setSortOrder(e.target.value)}
-                        >
-                            <FormControlLabel value="date" control={<Radio />} label="追加順" />
-                            <FormControlLabel value="browseTime" control={<Radio />} label="アクセス数の多い順" />
-                        </RadioGroup>
-                    </FormControl>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography>昇順</Typography>
-                        <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
-                        <Typography>降順</Typography>
-                    </Stack>
-                </Box>
+                <ListArrangeForm
+                    hashTagList={hashTagList}
+                    webSites={webSites}
+                    setSortedAndFilterdList={setSortedAndFilterdList}
+                />
             </CardContent>
 
             <Divider />
