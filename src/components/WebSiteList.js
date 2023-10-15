@@ -74,7 +74,8 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite, padding 
     );
 }
 
-function ListArrangeForm({ hashTagList, webSites, setSortedAndFilterdList }) {
+function ListArrangeForm(
+    { hashTagList, webSites, setSortedAndFilterdList, listRow, setListRow }) {
     const [filterdList, setFilterdList] = useState([]);
 
     const [title, setTitle] = useState('');
@@ -88,6 +89,14 @@ function ListArrangeForm({ hashTagList, webSites, setSortedAndFilterdList }) {
     useEffect(
         () => setSortedAndFilterdList(sortList(filterdList, sortOrder, isDESC))
         , [filterdList, sortOrder, isDESC]);
+
+    const [isOneRow, setIsOneRow] = useState(listRow === 'one');
+    useEffect(
+        () => {
+            const newListRow = isOneRow ? "one" : "two";
+            setListRow(newListRow);
+            localStorage.setItem('listRow', newListRow);
+        }, [isOneRow]);
 
     return (
         <div>
@@ -126,6 +135,11 @@ function ListArrangeForm({ hashTagList, webSites, setSortedAndFilterdList }) {
                     <Typography>昇順</Typography>
                     <Switch checked={isDESC} onChange={(e) => setIsDESC(e.target.checked)} />
                     <Typography>降順</Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography>2列</Typography>
+                    <Switch checked={isOneRow} onChange={(e) => setIsOneRow(e.target.checked)} />
+                    <Typography>1列</Typography>
                 </Stack>
             </Box>
         </div>
@@ -183,11 +197,15 @@ export default function WebSiteList(
     { hashTagList, webSites, increaseAccessCount, deleteWebSite, windowIsSmall }) {
     const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
     const [twoRowList, setTwoRowList] = useState([]);
-    const [showListByTwoRow, setShowListByTwoRow] = useState(false);
+    const [listRow, setListRow] = useState(
+        localStorage.getItem('listRow')
+            ? localStorage.getItem('listRow')
+            : "one"
+    );
 
     useEffect(() => {
         setTwoRowList(makeGroupedList(sortedAndFilterdList, 2));
-    }, [sortedAndFilterdList, showListByTwoRow])
+    }, [sortedAndFilterdList, listRow])
 
     return (
         <Card
@@ -199,14 +217,30 @@ export default function WebSiteList(
                     hashTagList={hashTagList}
                     webSites={webSites}
                     setSortedAndFilterdList={setSortedAndFilterdList}
+                    listRow={listRow}
+                    setListRow={setListRow}
                 />
             </CardContent>
 
             <Divider />
 
             <List sx={{ px: 2 }}>
-                {showListByTwoRow || windowIsSmall
-                    ? twoRowList.map((webSites, i) => (
+                {windowIsSmall || listRow === "one"
+                    ? sortedAndFilterdList.map((webSite, i) => (
+                        <div key={`webSiteList-${i}`}>
+                            <WebSiteListItem
+                                webSite={webSite}
+                                increaseAccessCount={increaseAccessCount}
+                                deleteWebSite={deleteWebSite}
+                                padding={3}
+                            />
+                            {i !== sortedAndFilterdList.length - 1
+                                ? <Divider />
+                                : undefined
+                            }
+                        </div>
+                    ))
+                    : twoRowList.map((webSites, i) => (
                         <div key={`webSiteLists-${i}`}>
                             <Grid container>
                                 {webSites[0] ?
@@ -240,23 +274,8 @@ export default function WebSiteList(
                             }
                         </div>
                     ))
-                    : sortedAndFilterdList.map((webSite, i) => (
-                        <div key={`webSiteList-${i}`}>
-                            <WebSiteListItem
-                                webSite={webSite}
-                                increaseAccessCount={increaseAccessCount}
-                                deleteWebSite={deleteWebSite}
-                                padding={3}
-                            />
-                            {i !== sortedAndFilterdList.length - 1
-                                ? <Divider />
-                                : undefined
-                            }
-                        </div>
-                    ))
                 }
             </List>
-
         </Card >
     );
 };
