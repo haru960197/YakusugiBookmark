@@ -178,7 +178,7 @@ export default function WebSiteList(
     { hashTagList, webSites, increaseAccessCount, deleteWebSite, windowIsSmall }) {
     const [sortedAndFilterdList, setSortedAndFilterdList] = useState([]);
     const [twoRowList, setTwoRowList] = useState([]);
-    const [showListByTwoRow, setShowListByTwoRow] = useState(false);
+    const [showListByTwoRow, setShowListByTwoRow] = useState(true);
 
     useEffect(() => {
         setTwoRowList(makeGroupedList(sortedAndFilterdList, 2));
@@ -201,21 +201,8 @@ export default function WebSiteList(
 
             <CardContent>
                 <List>
-                    {!showListByTwoRow
-                        ? sortedAndFilterdList.map((webSite, i) => (
-                            <div key={`webSiteList-${i}`}>
-                                <WebSiteListItem
-                                    webSite={webSite}
-                                    increaseAccessCount={increaseAccessCount}
-                                    deleteWebSite={deleteWebSite}
-                                />
-                                {i !== sortedAndFilterdList.length - 1
-                                    ? <Divider />
-                                    : undefined
-                                }
-                            </div>
-                        ))
-                        : twoRowList.map((webSites, i) => (
+                    {showListByTwoRow || windowIsSmall
+                        ? twoRowList.map((webSites, i) => (
                             <div key={`webSiteLists-${i}`}>
                                 <Stack direction="row" >
                                     {webSites[0] ?
@@ -237,6 +224,19 @@ export default function WebSiteList(
                                     }
                                 </Stack>
                                 {i !== twoRowList.length - 1
+                                    ? <Divider />
+                                    : undefined
+                                }
+                            </div>
+                        ))
+                        : sortedAndFilterdList.map((webSite, i) => (
+                            <div key={`webSiteList-${i}`}>
+                                <WebSiteListItem
+                                    webSite={webSite}
+                                    increaseAccessCount={increaseAccessCount}
+                                    deleteWebSite={deleteWebSite}
+                                />
+                                {i !== sortedAndFilterdList.length - 1
                                     ? <Divider />
                                     : undefined
                                 }
