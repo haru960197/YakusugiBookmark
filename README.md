@@ -5,7 +5,7 @@
 タイトルを自分でつけることや#タグにより後から自分で検索などがしやすくなる
 
 [サイトはこちら](https://haru960197.github.io/YakusugiBookmark/)
-![siteImage](https://github.com/haru960197/YakusugiBookmark/assets/124692504/ab8ffdab-fb87-4722-bdbf-939d7ab000d1)
+![siteImage](https://github.com/haru960197/YakusugiBookmark/assets/124692504/52b6f9cc-abff-4e46-82b5-96ffdf61d2c3)
 
 ***
 
