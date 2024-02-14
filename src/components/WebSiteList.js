@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useEffect, useState } from 'react';
+import DeleteDialogButton from "./DeleteDialogButton";
 
 function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite, padding }) {
     return (
@@ -67,7 +68,7 @@ function WebSiteListItem({ webSite, increaseAccessCount, deleteWebSite, padding 
                     </Grid>
                 </Grid>
                 <Grid item container alignItems="center" justifyContent="center" xs={1} >
-                    <DeleteOutlineOutlinedIcon onClick={(e) => deleteWebSite(webSite)} />
+                    <DeleteDialogButton onDelete={() => deleteWebSite(webSite)} />
                 </Grid>
             </Grid>
         </ListItem>
